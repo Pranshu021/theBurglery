@@ -1,0 +1,42 @@
+.orders-container {
+    width : 100%;
+    padding-top : 50px;
+    padding-bottom : 50px;
+}
+
+.order-item-row {
+    display: flex;
+    padding: 10px;
+    border: 2px solid black;
+    margin-top: 20px;
+}
+
+.no-orders-text {
+    color: rgba(211,211,211);
+
+}
+
+.order-control-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.order-details {
+    display: flex;
+    text-align: start;
+    margin-top : 10px;
+    justify-content: center;
+}
+
+.order-page-buttons {
+    width: 300px;
+    margin-top: 10px;
+}
+
+
+.order-item-row:hover {
+    box-shadow: 5px 5px 10px 5px gray;
+}

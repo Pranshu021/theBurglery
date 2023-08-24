@@ -1,0 +1,99 @@
+{
+  "orders": [
+    {
+      "id": 587924,
+      "customer_name": "Pranshu Duneja",
+      "customer_phone": "8683873337",
+      "orderName": "Aloo Ticki Burger",
+      "orderTime": "2021-12-9 23:38:58",
+      "addons": [
+        "Water"
+      ],
+      "total_amount": 110,
+      "addons_amount": 20
+    }
+  ],
+  "burgers": [
+    {
+      "burger_name": "Aloo Ticki Burger",
+      "burger_price": 55,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 10
+    },
+    {
+      "burger_name": "Veg Burger",
+      "burger_price": 65,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 10
+    },
+    {
+      "burger_name": "Grilled Burger",
+      "burger_price": 75,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 15
+    },
+    {
+      "burger_name": "Cheese Burger",
+      "burger_price": 90,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 15
+    },
+    {
+      "burger_name": "Double Aloo Ticki Burger",
+      "burger_price": 65,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 12
+    },
+    {
+      "burger_name": "Egg Burger",
+      "burger_price": 80,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 15
+    },
+    {
+      "burger_name": "Double Egg Burger",
+      "burger_price": 95,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 15
+    },
+    {
+      "burger_name": "Chicken Burger",
+      "burger_price": 120,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 20
+    },
+    {
+      "burger_name": "Double Chicken Burger",
+      "burger_price": 145,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 20
+    },
+    {
+      "burger_name": "Chili Chicken Burger",
+      "burger_price": 130,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 20
+    },
+    {
+      "burger_name": "Chicken Grilled Burger",
+      "burger_price": 150,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 25
+    },
+    {
+      "burger_name": "Jumbo Burger",
+      "burger_price": 200,
+      "image_path": "../burger_images/aloo_ticki_burger.jpg",
+      "preparation_time": 25
+    }
+  ],
+  "users": [
+    {
+      "username": "Admin",
+      "email": "admin@burgerly.com",
+      "password": "asd",
+      "completed_orders": [],
+      "pending_orders": []
+    }
+  ]
+}

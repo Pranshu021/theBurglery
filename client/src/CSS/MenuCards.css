@@ -1,0 +1,22 @@
+.menu-cards {
+    text-align: center;
+    padding: 20px;
+}
+
+
+.burger_name {
+    margin-top: 10px;
+    color: #1E1A1D;
+}
+
+.burger_price {
+    margin-top: 5px;
+    color: #1E1A1D;
+
+}
+
+button {
+    border-radius: 10px;
+    padding: 5px !important;
+}
+

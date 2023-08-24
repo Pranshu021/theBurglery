@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap');
+
+
+.login-container {
+    padding-top : 20px;
+    font-family: 'Merienda';
+}
+
+.form-row {
+    display: flex;
+    max-width: 500px;
+    text-align: center;
+    /* justify-content: center; */
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px 10px 50px 10px;
+    /* border: 10px solid #854d27; */
+    /* box-shadow: 0px 0px 10px #E5F2C9; */
+}
+
+.button-row {
+    margin-top: 20px;
+}
+
+.login-button {
+    width: 100%;
+}
+
+.input-rows {
+    margin-top: 20px;
+}

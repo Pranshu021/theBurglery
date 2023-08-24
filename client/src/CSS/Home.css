@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@400;700&display=swap');
+
+
+
+.home-container {
+    padding: 20px;
+    /* background-color: #502709f3; */
+    background-color: white;
+    font-family: Merienda;
+    height: 100vh;
+    color: #1F0318;
+
+}
+
+
