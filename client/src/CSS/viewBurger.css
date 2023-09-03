@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Satisfy&family=Shadows+Into+Light&family=Slabo+27px&display=swap');
+
+.burger-details-container {
+    height: 100vh !important;
+}
+
+.burger-details-row {
+    height: 100vh !important;
+}
+
+.burger-image-column {
+    height: 90vh !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.burger-details-column {
+    height: 90vh !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.burger-details-text {
+    font-size: 16pt;
+}
+
+.burger-recipe-text {
+    text-align: start;
+    font-family: 'Slabo 27px', serif;
+}
+
+.burger-image {
+    object-fit: cover;
+}

@@ -1,0 +1,33 @@
+.add-burger-container {
+    height: 100vh !important;
+}
+
+.add-burger-row {
+    height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.add-burger-column {
+    /* height: 90vh !important; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 500px;
+}
+
+.add-burger-form-labels {
+    font-weight: 600;
+    font-size: 12pt;
+}
+
+.add-burger-form-fields {
+    border-radius: 10px;
+    border: 1px solid darkgreen;
+}
+
+::placeholder {
+    text-align: center;
+}

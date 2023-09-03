@@ -12,6 +12,8 @@ const NavigationBar = (props) => {
         <div className="row navigation-links">
           <Link to="/" className="navigation-link">Home</Link>
           <Link to="/orders" className="navigation-link">Orders</Link>
+          <Link to="/burgers/add" className="navigation-link">Add-Burger</Link>
+          
         </div>
       </div>
     );

@@ -1,7 +1,6 @@
 import '../CSS/LogIn.css'
 import {useDispatch, useSelector} from 'react-redux';
-import {login, logout} from '../actions/loginAction';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 const crypto = require('crypto');
 
 const LogIn = (props) => {

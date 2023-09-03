@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import '../CSS/Orders.css'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 const Orders = (props) => {
@@ -9,7 +8,6 @@ const Orders = (props) => {
     const [isLoading, setLoadingState] = useState(true);
     const [error, setErrorState] = useState(null);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     
     var orderListItems;
 
@@ -46,8 +44,7 @@ const Orders = (props) => {
     }
 
     const handleModify = (order) => {
-        dispatch({type: 'CUSTOM', orderid: order.id})
-        navigate('/order/' + order.id + '/modify')
+        navigate('/order/' + order.order_id + '/modify');
     }
 
     if(orderListData) {
@@ -65,9 +62,9 @@ const Orders = (props) => {
                         Addons : {order.addons.length > 0 ? order.addons.map((addon) => {
                             return(<b>{addon.quantity} - {addon.name}, &nbsp;</b>)
                         }): <><b>None</b></>} <br />
-                        Burger Price : <b>₹ {order.order_price}</b><br />
+                        Burger Price : <b>₹ {order.order_price} ({order.order_quantity})</b><br />
                         Addons Price : <b>₹ {order.addons_amount}</b><br />
-                        Total Amount : <b>₹ {order.total_amount + order.addons_amount}</b><br />
+                        Total Amount : <b>₹ {order.total_amount}</b><br />
 
                         {/* Addons : <b>{order.addons.length > 0 ? "" +  order.addons : "None"}</b> */}
                         </p>

@@ -8,7 +8,18 @@ const getOrders = async(req, res) => {
 }
 
 const getOrder = async(req, res) => {
-    res.status(200).json({msg: "GetOrder api working"});
+    const orderId = req.params.id;
+    console.log(orderId);
+    const dbResponse = await Orders.find({order_id: orderId});
+    if(dbResponse.length === 0) {
+        console.log("Sending 404")
+        res.json({error: "NOT FOUND"});
+    } else if(dbResponse[0].order_status === "IN PROGRESS") {
+        res.json({error: "IN PROGRESS"});
+    } else {
+        res.status(200).json({dbResponse});
+    }
+    // res.status(200).json({msg: "GetOrder api working"});
 }
 
 const createOrder = async(req, res) => {
@@ -16,12 +27,13 @@ const createOrder = async(req, res) => {
     const numberOfPendingOrders = await Orders.find({});
     const order_id = numberOfPendingOrders.length + 1;
     const addons_amount = addons.reduce((sum, addon) => sum + addon.totalAmount, 0);
-    const total_amount = parseInt(burger_quantity) * parseInt(burger_price) + addons_amount;
+    const total_amount = (parseInt(burger_quantity) * parseInt(burger_price)) + addons_amount;
 
-    // console.log(addons_amount, total_amount);
+    console.log(addons_amount, total_amount);
     const orderData = {
         order_id,
         order_name: burger_name,
+        order_quantity: burger_quantity,
         order_price: parseInt(burger_price),
         customer_name,
         customer_phone,
@@ -40,9 +52,6 @@ const createOrder = async(req, res) => {
     // res.status(200).json({msg: "createOrder api working"}); 
 }
 
-const updateOrder = async(req, res) => {
-    res.status(200).json({msg: "updateOrder api working"});
-}
 
 const deleteOrder = async(req, res) => {
     const {id} = req.params;
@@ -64,6 +73,5 @@ module.exports = {
     getOrders,
     getOrder,
     createOrder,
-    updateOrder,
     deleteOrder
 }

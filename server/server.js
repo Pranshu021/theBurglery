@@ -16,6 +16,10 @@ app.use(express.static('public'))
 app.use('/api/burgers', burgerRoutes);
 app.use('/api/orders', orderRoutes);
 
+app.use((req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
+
 mongoose.connect(process.env.MONGO_URI, {dbName: "theburglery"})
 .then(() => {
     app.listen(process.env.PORT, () => {

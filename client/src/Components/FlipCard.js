@@ -1,8 +1,21 @@
 import MenuCards from './MenuCards.js';
 import '../CSS/FlipCard.css'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const FlipCard = (props) => { 
+    const navigate = useNavigate();
+
+    const handlePlaceOrder = async(event) => {
+        const burgerDetails = await axios.get(`/api/burgers/${props.burger_id}`);
+        navigate(`/order/${props.burger_id}`);
+    }
+
+    const handleViewBurgerHandler = async(event) => {
+        const burgerId = await axios.get(`/api/burgers/${props.burger_id}`);
+        navigate(`/burgers/${props.burger_id}`);
+    }
+
     return(
         <div className="flip-card container">
             <div className="flip-card-inner">
@@ -14,7 +27,9 @@ const FlipCard = (props) => {
                 <div className="flip-card-back">
                     <div className="d-flex align-items-center back-side">
                         <div className="row buttons-row">
-                            <Link to={"/order/" + props.burgerName}><button className="btn btn-outline-success flip-card-buttons">Place Order</button></Link>
+                            <button className="btn btn-outline-success flip-card-buttons mt-2" onClick={handlePlaceOrder}>Place Order</button>
+                            <button className="btn btn-outline-success flip-card-buttons mt-2" onClick={handleViewBurgerHandler}>View Burger</button>
+
                             {/* <Link to={"/order/" + props.burgerName + "/custom"}><button className="btn btn-outline-success flip-card-buttons mt-2">Edit Order</button></Link> */}
                         </div>
                     </div>

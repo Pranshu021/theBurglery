@@ -6,7 +6,6 @@ const {
     getOrders,
     getOrder,
     createOrder,
-    updateOrder,
     deleteOrder
 } = require('../controllers/orderControllers')
 
@@ -19,8 +18,6 @@ router.get('/:id', cors(), getOrder);
 // Create an order
 router.post('/createOrder', cors(), createOrder);
 
-// Update Order
-router.patch('/:id', cors(), updateOrder);
 
 // Delete an Order
 router.delete('/:id', cors(), deleteOrder);

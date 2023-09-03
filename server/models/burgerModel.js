@@ -18,7 +18,7 @@ const burgerSchema = new Schema({
     preparation_time: {
         type: Number,
         required: true
-    }
+    },
 }, {
     timestamps: true
 })

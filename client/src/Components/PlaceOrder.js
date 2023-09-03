@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 const PlaceOrder = (props) => {
-    const {burgerName} = useParams();
+    const { id } = useParams();
     const [displayMessage, setDisplayMessage] = useState({
         type: "",
         message: ""
@@ -38,7 +38,6 @@ const PlaceOrder = (props) => {
                 addonsSelected.push(addonObject);
             }
         }   
-        console.log(addonsSelected);
         setSelectedAddons(addonsSelected);
         handleClose();
     } 
@@ -108,35 +107,29 @@ const PlaceOrder = (props) => {
         </Modal>
     )
 
-    // const handleAddonsSelect = (event) => {
-    //     const selectedOptions = event.target.options;
-    //     const selectedValues = [];
-    //     for (let option of selectedOptions) {
-    //         if (option.selected) {
-    //             selectedValues.push(option.value);
-    //         }
-    //     }
-    //     setSelectedAddons(selectedValues);
-    //     console.log(selectedValues);
-    // }
-
     useEffect(() => {
         const checkBurgerExists = async() => {
             setDisplayMessage({type: "", message: ""})
-            const response = await axios.get('/api/burgers/getBurger', {
-                params: {
-                    burgerName: burgerName
+            axios.get(`/api/burgers/${id}`)
+            .then(response => {
+                if(!response.ok) {
+                    console.log('Not found');
+                    setDisplayMessage({type: "error", message: "Invalid Order"})
                 }
-            });
-            if(response.data.length === 0) {
-                setDisplayMessage({type: "error", message: "Invalid Order"})
-            } else {
                 setDisplayMessage({type: "", message: ""})
-                setBurgerDetails(response.data[0]);
-            }
+                setBurgerDetails(response.data);
+            })
+            // const response = await axios.get(`/api/burgers/${id}`)
+            // if(!response.ok) {
+            //     console.log('Not found')
+            //     setDisplayMessage({type: "error", message: "Invalid Order"})
+            // } else {
+            //     setDisplayMessage({type: "", message: ""})
+            //     setBurgerDetails(response.data);
+            // }
         }
         checkBurgerExists();
-    }, [burgerName])
+    }, [id])
 
     useEffect(() => {
         const getAddonsList = async() => {
@@ -147,10 +140,11 @@ const PlaceOrder = (props) => {
         getAddonsList();
     }, [])
 
+    console.log(burgerDetails)
     return (
         <div className="container form-container">
             <h2>Place Your Order</h2>
-            <u><p>{burgerName}</p></u>
+            <u><p>{}</p></u>
 
             
 

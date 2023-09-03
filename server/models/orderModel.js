@@ -23,6 +23,11 @@ const orderSchema = new Schema({
         required: true
     },
 
+    order_quantity: {
+        type: Number,
+        required: true
+    },
+
     order_price: {
         type: Number,
         required: true

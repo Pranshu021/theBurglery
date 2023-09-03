@@ -16,6 +16,7 @@ const Menu = (props) => {
                   key={burger._id} 
                   burgerName={burger.burger_name} 
                   burgerPrice={burger.burger_price}
+                  burger_id={burger._id}
                   />
               })}
            </div>
