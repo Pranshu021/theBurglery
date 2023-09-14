@@ -1,29 +1,58 @@
-import './App.css';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'; 
-import NavigationBar from './Components/NavigationBar';
-import Home from './Components/Home';
-import PlaceOrder from './Components/PlaceOrder';
-import Orders from './Components/Orders';
-import ViewBurger from './Components/ViewBurger';
-import AddBurger from './Components/AddBurger';
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+    NavigationBar,
+    Home,
+    PlaceOrder,
+    Orders,
+    ViewBurger,
+    AddBurger,
+    PrivateRoute,
+    SignUp,
+    LogIn
+} from "./Components";
+import { useEffect, useState } from "react";
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
+
+    const [isSignedIn, setIsSignedIn] = useState();
+
+    const NavigationBarLayout = ({children}) => (
+        <>
         <NavigationBar />
-        <div className="content">
-          <Routes>
-            <Route exact path="/" element={<Home/>} />
-            <Route exact path="/orders" element={<Orders />} />
-            <Route path="/order/:id" element={<PlaceOrder />} />
-            <Route path="/burgers/:id" element={<ViewBurger />} />
-            <Route path="/burgers/add" element={<AddBurger />} />
-          </Routes>
+        {children}
+        </>
+    )
+
+    return (
+        <div className="App">  
+            <Router>
+                <Routes>
+                    <Route path="/" element={<SignUp />}/>
+                    <Route path="/login" element={<LogIn />} />
+
+                    <Route exact path="/home" element={
+                        <NavigationBarLayout><PrivateRoute><Home /></PrivateRoute></NavigationBarLayout>
+                    } />
+                    <Route path="/orders" element={
+                        <NavigationBarLayout><PrivateRoute><Orders /></PrivateRoute></NavigationBarLayout>
+                    } />
+                    <Route path="/order/:id" element={
+                        <NavigationBarLayout><PrivateRoute><PlaceOrder /></PrivateRoute></NavigationBarLayout>
+                    } />
+
+                    <Route path="/burgers/:id" element={
+                        <NavigationBarLayout><PrivateRoute><ViewBurger /></PrivateRoute></NavigationBarLayout>
+                    } />
+                    
+                    <Route path="/burgers/add" element={
+                        <NavigationBarLayout><PrivateRoute><AddBurger /></PrivateRoute></NavigationBarLayout>
+                    } />
+                    {/* <Route element={AuthenticatedRoutes} /> */}
+                </Routes>
+            </Router>
         </div>
-      </div>
-    </Router>
-  );
+    );
 }
 
 export default App;

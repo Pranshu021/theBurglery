@@ -5,7 +5,7 @@
     display: none !important;
 } */
 
-.login-container {
+.signup-container {
     height: 100vh !important;
     width: 100vw !important;
     padding-top : 20px;
@@ -30,7 +30,7 @@
     margin-top: 20px;
 }
 
-.login-button {
+.signup-button {
     width: 100%;
 }
 

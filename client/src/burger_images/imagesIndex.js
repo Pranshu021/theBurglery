@@ -10,6 +10,8 @@ import jumboBurger from './jumbo_burger.jpg';
 import vegBuger from './veg_burger.jpg';
 import doubleChickenBurger from './double_chicken_burger.jpg';
 import eggBurger from './egg_burger.jpg';
+import background from './backgroud.png';
+import background_video from './background_video';
 
 
 export {alooTickiBurger, 
@@ -23,5 +25,7 @@ export {alooTickiBurger,
     grilledBurger,
     jumboBurger,
     vegBuger,
-    chiliLavaBurger} ;
+    chiliLavaBurger,
+    background
+} ;
 

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const burgerRoutes = require('./routes/burgerRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(bodyparser.json());
 app.use(express.static('public'))
 app.use('/api/burgers', burgerRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/users', userRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' });

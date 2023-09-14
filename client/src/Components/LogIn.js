@@ -1,76 +1,98 @@
-import '../CSS/LogIn.css'
-import {useDispatch, useSelector} from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-const crypto = require('crypto');
+import '../CSS/login.css';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react'; 
+
 
 const LogIn = (props) => {
-    const dispatch = useDispatch();
+
+    const [displayMessage, setDisplayMessage] = useState({
+        messageType: '',
+        message: ''
+    })
+
     const navigate = useNavigate();
 
-    
+    useEffect(() => {
+        if(localStorage.getItem("isSignedIn") && localStorage.getItem("isSignedIn") === 'true') {
+            console.log("Signed in")
+            navigate('/home')
+        } 
+    }, [])
 
-    const submitHandler = (event) => {
+    const submitHandler = async(event) => {
         event.preventDefault();
+        
         const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value
-        // dispatch({type: 'LOGIN', username: document.getElementById("username").value, password: document.getElementById("password").value});
-        fetch('http://localhost:8000/users').then((res) => {
-                return res.json();
-            }).then((data) => {
-                if(data.find((data) => {
-                    return data.username === username && data.password === password;
-                })) {
-                    dispatch({type : 'LOGIN', username: username, password: password});
-                    navigate('/');
-                }
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const phone = document.getElementById("phone").value;
+
+        try {
+            setDisplayMessage({
+                messageType: '',
+                message: ''
+            })
+
+            const response = await axios.post('/api/users/createUser', {username, email, password, phone});
+            if(!response.data.error) {
+                setDisplayMessage({
+                    messageType: 'success',
+                    message: 'User created successfully'
+                })
+            } else {
+                setDisplayMessage({
+                    messageType: 'error',
+                    message: 'Something went Wrong'
+                })
+            }
+        } catch(error) {
+            console.log(error)
+            setDisplayMessage({
+                messageType: 'error',
+                message: 'Something went Wrong'
             })
         }
-
-    return (
-        <div className="container login-container">
-            <div className="row intro-row">
-                <div className="col-lg-12">
-                    <h2>Welcome to the Burglery</h2>
-                    <p>Here, we steal your Hunger ;)</p>
-                </div>
-            </div>
-
-            <div className="row form-row">
-                <div className="col-lg-12">
-                    <h2>Log In</h2>
-                    <form className="form-horizontal login-form" onSubmit={submitHandler} >
-                        <div className="row input-rows">
-                            <div className="col-lg-12">
-                                {/* <label>Username : </label> */}
-                                <input type="text" id="username" className="form-control" placeholder="Username" />
-                            </div>
+        
+    }
+    return(
+    <div className="container-fluid login-container">
+        <div className="row form-row">
+            <div className="col-lg-12">
+                <h2>Log In</h2>
+                <form className="form-horizontal login-form" onSubmit={submitHandler} >
+                    <div className="row input-rows">
+                        <div className="col-lg-12">
+                            <input type="text" id="email" className="form-control" placeholder="Email" />
                         </div>
+                    </div>
 
-                        <div className="row input-rows">
-                            <div className="col-lg-12">
-                                {/* <label>Email : </label> */}
-                                <input type="text" id="email" className="form-control" placeholder="Email" />
-                            </div>
+                    <div className="row input-rows">
+                        <div className="col-lg-12">
+                            <input type="password" id="password" className="form-control" placeholder="Password" />
                         </div>
+                    </div>
 
-                        <div className="row input-rows">
-                            <div className="col-lg-12">
-                                {/* <label>Password : </label> */}
-                                <input type="password" id="password" className="form-control" placeholder="Password" />
-                            </div>
+                    <div className="row button-row">
+                        <div className="col-lg-12">
+                            <button type="submit" className="btn btn-danger btn-block login-button">Log In</button>
                         </div>
+                    </div>
 
-                        <div className="row button-row">
-                            <div className="col-lg-12">
-                                <button type="submit" className="btn btn-danger btn-block login-button">Log In</button>
-                            </div>
+                    <div className="row mt-3">
+                        <div className="col-lg-12">
+                            <p>Not registered? <Link to="/">Signup</Link></p>
                         </div>
+                    </div>
 
-                    </form>
-                </div>
+                    {displayMessage.messageType === 'success' ? <div className='alert alert-success text-center mt-3 mb-0'>{displayMessage.message}</div> : <></>}
+                    
+                    {displayMessage.messageType === 'error' ? <div className='alert alert-danger text-center mt-3 mb-0'>{displayMessage.message}</div> : <></>}
+
+                </form>
             </div>
         </div>
-    )
+    </div>)
 }
 
 export default LogIn;
