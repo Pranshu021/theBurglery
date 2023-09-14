@@ -22,11 +22,8 @@ const LogIn = (props) => {
 
     const submitHandler = async(event) => {
         event.preventDefault();
-        
-        const username = document.getElementById("username").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-        const phone = document.getElementById("phone").value;
 
         try {
             setDisplayMessage({
@@ -34,23 +31,23 @@ const LogIn = (props) => {
                 message: ''
             })
 
-            const response = await axios.post('/api/users/createUser', {username, email, password, phone});
-            if(!response.data.error) {
+            const response = await axios.post('/api/users/login', {email, password});
+
+            if(response.status === 200) {
+                console.log(response.data);
+                localStorage.setItem("isSignedIn", true)
+                localStorage.setItem("userData", response.data[0]);
                 setDisplayMessage({
                     messageType: 'success',
-                    message: 'User created successfully'
+                    message: 'Successfully Logged In'
                 })
-            } else {
-                setDisplayMessage({
-                    messageType: 'error',
-                    message: 'Something went Wrong'
-                })
+                navigate('/home');
             }
         } catch(error) {
             console.log(error)
             setDisplayMessage({
                 messageType: 'error',
-                message: 'Something went Wrong'
+                message: error.response.data.error
             })
         }
         

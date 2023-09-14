@@ -19,7 +19,7 @@ const createUser = async(req, res) => {
         const newUser = await Users.create({
             username,
             email,
-            password,
+            password: encryptedPassword,
         })
 
         const token = jwt.sign({user_id: newUser._id, email}, process.env.TOKEN_KEY, {expiresIn: "2h"});
@@ -37,7 +37,33 @@ const createUser = async(req, res) => {
 }
 
 const login = async(req, res) => {
-    res.status(200).json({msg: "Login API working"});
+    const {email, password} = req.body;
+    console.log()
+    
+    try {
+        const userData = await Users.find({email: email});
+        if(userData.length === 0) {
+            res.status(409).json({error: "Invalid Email or password"})
+        }
+    
+        await bcrypt.compare(password, userData[0].password, (err, result) => {
+            if(err) {
+                res.status(500).json({error: "Something went wrong"});
+            }
+            
+            if(result) {
+                res.status(200).json(userData);
+            } else {
+                res.status(401).json({error: "Invalid credentials"});
+            }
+
+        })
+
+    } catch(error) {
+        console.log(error);
+        res.json({error: "Something went wrong"});
+    }
+
 }
 
 const getUser = async(req, res) => {
