@@ -1,7 +1,8 @@
 import '../CSS/login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useEffect, useState } from 'react'; 
+import { useEffect, useState } from 'react';
+import { useAuth } from './Context/AuthContext';
 
 
 const LogIn = (props) => {
@@ -13,6 +14,8 @@ const LogIn = (props) => {
 
     const navigate = useNavigate();
 
+    const { userToken, login, logout } = useAuth();
+
     useEffect(() => {
         if(localStorage.getItem("isSignedIn") && localStorage.getItem("isSignedIn") === 'true') {
             console.log("Signed in")
@@ -20,7 +23,7 @@ const LogIn = (props) => {
         } 
     }, [])
 
-    const submitHandler = async(event) => {
+    const loginHandler = async(event) => {
         event.preventDefault();
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
@@ -36,11 +39,12 @@ const LogIn = (props) => {
             if(response.status === 200) {
                 console.log(response.data);
                 localStorage.setItem("isSignedIn", true)
-                localStorage.setItem("userData", response.data[0]);
+                login(response.data[0].token);
                 setDisplayMessage({
                     messageType: 'success',
                     message: 'Successfully Logged In'
                 })
+                
                 navigate('/home');
             }
         } catch(error) {
@@ -57,7 +61,7 @@ const LogIn = (props) => {
         <div className="row form-row">
             <div className="col-lg-12">
                 <h2>Log In</h2>
-                <form className="form-horizontal login-form" onSubmit={submitHandler} >
+                <form className="form-horizontal login-form" onSubmit={loginHandler} >
                     <div className="row input-rows">
                         <div className="col-lg-12">
                             <input type="text" id="email" className="form-control" placeholder="Email" />

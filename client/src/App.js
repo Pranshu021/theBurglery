@@ -11,11 +11,10 @@ import {
     SignUp,
     LogIn
 } from "./Components";
-import { useEffect, useState } from "react";
+
+import { AuthProvider } from "./Components/Context/AuthContext";
 
 function App() {
-
-    const [isSignedIn, setIsSignedIn] = useState();
 
     const NavigationBarLayout = ({children}) => (
         <>
@@ -28,27 +27,28 @@ function App() {
         <div className="App">  
             <Router>
                 <Routes>
-                    <Route path="/" element={<SignUp />}/>
-                    <Route path="/login" element={<LogIn />} />
+                    <Route path="/" element={ <AuthProvider> <SignUp /> </AuthProvider>} />
+                    <Route path="/login" element={<AuthProvider> <LogIn /> </AuthProvider>} />
 
-                    <Route exact path="/home" element={
+                    <Route exact path="/home" element={ <AuthProvider>
                         <NavigationBarLayout><PrivateRoute><Home /></PrivateRoute></NavigationBarLayout>
-                    } />
-                    <Route path="/orders" element={
-                        <NavigationBarLayout><PrivateRoute><Orders /></PrivateRoute></NavigationBarLayout>
-                    } />
-                    <Route path="/order/:id" element={
-                        <NavigationBarLayout><PrivateRoute><PlaceOrder /></PrivateRoute></NavigationBarLayout>
-                    } />
+                        </AuthProvider>} />
 
-                    <Route path="/burgers/:id" element={
+                    <Route path="/orders" element={ <AuthProvider>
+                        <NavigationBarLayout><PrivateRoute><Orders /></PrivateRoute></NavigationBarLayout>
+                        </AuthProvider> } />
+
+                    <Route path="/order/:id" element={ <AuthProvider>
+                        <NavigationBarLayout><PrivateRoute><PlaceOrder /></PrivateRoute></NavigationBarLayout>
+                        </AuthProvider> } />
+
+                    <Route path="/burgers/:id" element={ <AuthProvider>
                         <NavigationBarLayout><PrivateRoute><ViewBurger /></PrivateRoute></NavigationBarLayout>
-                    } />
+                        </AuthProvider> } />
                     
-                    <Route path="/burgers/add" element={
+                    <Route path="/burgers/add" element={ <AuthProvider>
                         <NavigationBarLayout><PrivateRoute><AddBurger /></PrivateRoute></NavigationBarLayout>
-                    } />
-                    {/* <Route element={AuthenticatedRoutes} /> */}
+                        </AuthProvider> } />
                 </Routes>
             </Router>
         </div>
