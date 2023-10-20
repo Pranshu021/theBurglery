@@ -1,9 +1,10 @@
 import '../CSS/PlaceOrder.css'
 import { useState, useEffect }  from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import jwt from 'jsonwebtoken';
 
 const PlaceOrder = (props) => {
     const { id } = useParams();
@@ -14,11 +15,11 @@ const PlaceOrder = (props) => {
     const [burgerDetails, setBurgerDetails] = useState();
     const [addonsOptions, setAddonsOptions] = useState([]);
     const [selectedAddons, setSelectedAddons] = useState([]);
+    const [userData, setUserData] = useState();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
-    const navigate = useNavigate();
 
     const handleAddonsSubmission = (event) => {
         event.preventDefault();
@@ -44,29 +45,38 @@ const PlaceOrder = (props) => {
 
     const HandleSubmit = async(event) => {
         event.preventDefault();
-        console.log(event.target.id);
         if(event.target.id !== "addons-form") {
-            console.log("Submitting form");
-            const customerName = document.getElementById("customer_name").value;
             const burger_quantity = document.getElementById("quantity").value;
-            const customerPhone = document.getElementById("customer_phone").value;
             document.getElementById("submit-button").disabled = true;
             try {
                 const response = await axios.post('/api/orders/createOrder', {
-                    customer_name: customerName, 
+                    customer_name: userData.username, 
+                    customer_email: userData.email,
+                    customer_id: userData.id,
                     burger_quantity: burger_quantity, 
-                    customer_phone: customerPhone,
+                    customer_phone: userData.phone,
                     burger_name: burgerDetails.burger_name,
                     burger_price: burgerDetails.burger_price,
                     addons: selectedAddons
                 });
-                if(response.status === 200 && response.data.msg === "Order Placed") {
-                    setDisplayMessage({type: "success", message: "Order placed"})
-                    document.getElementById("submit-button").disabled = false;
+                if(response.status === 200) {
+                    let orderList = userData.orders;
+                    orderList.push({"order_id": response.data._id});
+                    
+                    const updateUserDb = await axios.patch(`/api/users/${userData.id}`, {
+                        orders: orderList
+                    })
+                    if(updateUserDb.data.msg === 'Updated') {
+                        console.log(updateUserDb.data)
+                        setDisplayMessage({type: "success", message: "Order placed"})
+                        document.getElementById("submit-button").disabled = false;
+                    } else {
+                        setDisplayMessage({type: "error", message: "Order failed"})
+                    }
                 } else {
                     setDisplayMessage({type: "error", message: "Order failed"})
                 }
-    
+
             } catch(error) {
                 setDisplayMessage({type: "error", message: "Order Failed"})
                 console.error(error)
@@ -119,14 +129,6 @@ const PlaceOrder = (props) => {
                 setDisplayMessage({type: "", message: ""})
                 setBurgerDetails(response.data);
             })
-            // const response = await axios.get(`/api/burgers/${id}`)
-            // if(!response.ok) {
-            //     console.log('Not found')
-            //     setDisplayMessage({type: "error", message: "Invalid Order"})
-            // } else {
-            //     setDisplayMessage({type: "", message: ""})
-            //     setBurgerDetails(response.data);
-            // }
         }
         checkBurgerExists();
     }, [id])
@@ -140,13 +142,36 @@ const PlaceOrder = (props) => {
         getAddonsList();
     }, [])
 
-    console.log(burgerDetails)
+
+    useEffect(() => {
+        const getUserData = async() => {
+            const user_token = jwt.decode(JSON.parse(localStorage.getItem("user_data")).token);
+            
+            try {
+                const user_data = await axios.get(`/api/users/${user_token.user_id}`);
+                if(user_data.data) {
+                    console.log(user_data.data);
+                    setUserData(user_data.data);
+                } else {
+                    console.log('Something went wrong');
+                }
+            } catch(error) {
+                setDisplayMessage({
+                    type: 'error',
+                    message: 'Something went wrong'
+                })
+            }
+            
+        }
+
+        getUserData();
+    }, [])
+
+
     return (
         <div className="container form-container">
             <h2>Place Your Order</h2>
             <u><p>{}</p></u>
-
-            
 
             { displayMessage.type === "error" && displayMessage.message === "Invalid Order" ? <div className="alert alert-danger text-center">{displayMessage.message}</div> : 
 
@@ -157,26 +182,6 @@ const PlaceOrder = (props) => {
                     <input className="placeorder-inputs" required type="number" min="1" max="100" id="quantity" placeholder="Number of Burgers..."/>   
                 </div>
 
-                <div className="row inputs">
-                    <label className="mb-1">Name</label>
-                    <input className="placeorder-inputs"  required type="text" id="customer_name" placeholder="Customer Name..."/>
-                </div>
-                
-                <div className="row inputs">
-                    <label className="mb-1">Phone</label>
-                    <input className="placeorder-inputs"  required type="text" placeholder="Customer Phone number ..." id="customer_phone"/>
-                </div>
-
-                
-
-                {/* <div className="row inputs">
-                    <label className="mb-1">Addons</label>
-                    <select className="custom-select" id="addons-select" onChange={handleAddonsSelect} multiple>
-                        {addonsOptions.map((addon) => (
-                            <option value={addon.name}>{addon.name} --  {addon.price}</option>
-                        ))}
-                    </select>
-                </div> */}
                 <div className="row">
                 {addOnsModal}
 

@@ -7,6 +7,7 @@
     font-weight: 400;
     letter-spacing: 5px;
     padding: 20px 0px 20px 0px;
+    position: relative;
 }
 
 .navbar-heading {
@@ -27,7 +28,7 @@
 }
 
 .navigation-link:hover {
-    color: black !important;
+    color: #84f69c !important;
 }
 
 .link-buttons:hover {
@@ -36,4 +37,18 @@
 
 .link-buttons:hover > a {
     color: #04030f;
+}
+
+.logout-span {
+    float: right;
+    text-align: end;
+}
+
+.logout-button {
+    margin-bottom: 10px !important;
+    color: #E5F2C9;
+}
+
+.logout-button:hover {
+    color: #e7e393;
 }

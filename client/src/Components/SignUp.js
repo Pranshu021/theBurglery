@@ -39,6 +39,8 @@ const SignUp = (props) => {
                     messageType: 'success',
                     message: 'User created successfully'
                 })
+                setTimeout(() => {}, 1000);
+                navigate('/login')
             } else {
                 setDisplayMessage({
                     messageType: 'error',
@@ -88,7 +90,7 @@ const SignUp = (props) => {
 
                         <div className="row button-row">
                             <div className="col-lg-12">
-                                <button type="submit" className="btn btn-danger btn-block signup-button">Log In</button>
+                                <button type="submit" className="btn btn-danger btn-block signup-button">Sign Up</button>
                             </div>
                         </div>
 

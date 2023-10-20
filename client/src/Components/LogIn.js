@@ -2,7 +2,6 @@ import '../CSS/login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useAuth } from './Context/AuthContext';
 
 
 const LogIn = (props) => {
@@ -14,7 +13,6 @@ const LogIn = (props) => {
 
     const navigate = useNavigate();
 
-    const { userToken, login, logout } = useAuth();
 
     useEffect(() => {
         if(localStorage.getItem("isSignedIn") && localStorage.getItem("isSignedIn") === 'true') {
@@ -39,7 +37,11 @@ const LogIn = (props) => {
             if(response.status === 200) {
                 console.log(response.data);
                 localStorage.setItem("isSignedIn", true)
-                login(response.data[0].token);
+                localStorage.setItem("user_data", JSON.stringify({token: response.data[0].token, username: response.data[0].username}));
+                // login({
+                //     username: response.data[0].username,
+                //     token: response.data[0].token,
+                // })
                 setDisplayMessage({
                     messageType: 'success',
                     message: 'Successfully Logged In'

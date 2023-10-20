@@ -9,46 +9,92 @@ import {
     AddBurger,
     PrivateRoute,
     SignUp,
-    LogIn
+    LogIn,
+    ViewOrder
 } from "./Components";
 
-import { AuthProvider } from "./Components/Context/AuthContext";
 
 function App() {
-
-    const NavigationBarLayout = ({children}) => (
+    const NavigationBarLayout = ({ children }) => (
         <>
-        <NavigationBar />
-        {children}
+            <NavigationBar />
+            {children}
         </>
-    )
+    );
 
     return (
-        <div className="App">  
+        <div className="App">
             <Router>
                 <Routes>
-                    <Route path="/" element={ <AuthProvider> <SignUp /> </AuthProvider>} />
-                    <Route path="/login" element={<AuthProvider> <LogIn /> </AuthProvider>} />
+                    <Route path="/" element={<SignUp />} />
+                    <Route path="/login" element={<LogIn />} />
 
-                    <Route exact path="/home" element={ <AuthProvider>
-                        <NavigationBarLayout><PrivateRoute><Home /></PrivateRoute></NavigationBarLayout>
-                        </AuthProvider>} />
+                    <Route
+                        exact
+                        path="/home"
+                        element={
+                            <NavigationBarLayout>
+                                <PrivateRoute>
+                                    <Home />
+                                </PrivateRoute>
+                            </NavigationBarLayout>
+                        }
+                    />
 
-                    <Route path="/orders" element={ <AuthProvider>
-                        <NavigationBarLayout><PrivateRoute><Orders /></PrivateRoute></NavigationBarLayout>
-                        </AuthProvider> } />
+                    <Route
+                        path="/orders"
+                        element={
+                            <NavigationBarLayout>
+                                <PrivateRoute>
+                                    <Orders />
+                                </PrivateRoute>
+                            </NavigationBarLayout>
+                        }
+                    />
 
-                    <Route path="/order/:id" element={ <AuthProvider>
-                        <NavigationBarLayout><PrivateRoute><PlaceOrder /></PrivateRoute></NavigationBarLayout>
-                        </AuthProvider> } />
+                    <Route
+                        path="/order/:id"
+                        element={
+                            <NavigationBarLayout>
+                                <PrivateRoute>
+                                    <PlaceOrder />
+                                </PrivateRoute>
+                            </NavigationBarLayout>
+                        }
+                    />
 
-                    <Route path="/burgers/:id" element={ <AuthProvider>
-                        <NavigationBarLayout><PrivateRoute><ViewBurger /></PrivateRoute></NavigationBarLayout>
-                        </AuthProvider> } />
-                    
-                    <Route path="/burgers/add" element={ <AuthProvider>
-                        <NavigationBarLayout><PrivateRoute><AddBurger /></PrivateRoute></NavigationBarLayout>
-                        </AuthProvider> } />
+                    <Route
+                        path="/burgers/:id"
+                        element={
+                            <NavigationBarLayout>
+                                <PrivateRoute>
+                                    <ViewBurger />
+                                </PrivateRoute>
+                            </NavigationBarLayout>
+                        }
+                    />
+
+                    <Route
+                        path="/burgers/add"
+                        element={
+                            <NavigationBarLayout>
+                                <PrivateRoute>
+                                    <AddBurger />
+                                </PrivateRoute>
+                            </NavigationBarLayout>
+                        }
+                    />
+
+                    <Route
+                        path="/orders/viewOrder/:id"
+                        element={
+                            <NavigationBarLayout>
+                                <PrivateRoute>
+                                    <ViewOrder />
+                                </PrivateRoute>
+                            </NavigationBarLayout>
+                        }
+                    />
                 </Routes>
             </Router>
         </div>

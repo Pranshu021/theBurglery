@@ -8,12 +8,22 @@ const orderSchema = new Schema({
         required: true
     },
 
+    customer_id: {
+        type: String,
+        required: true
+    },
+
     customer_name: {
         type: String,
         required: true
     },
 
     customer_phone: {
+        type: String,
+        required: true
+    },
+
+    customer_email: {
         type: String,
         required: true
     },

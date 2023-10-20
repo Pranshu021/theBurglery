@@ -7,6 +7,7 @@ import AddBurger from './AddBurger';
 import PrivateRoute from './PrivateRoute';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
+import ViewOrder from './ViewOrder';
 
 export {
     NavigationBar,
@@ -17,5 +18,6 @@ export {
     AddBurger,
     PrivateRoute,
     SignUp,
-    LogIn
+    LogIn,
+    ViewOrder
 }

@@ -7,6 +7,7 @@ const getOrders = async(req, res) => {
     res.status(200).json(ordersData);
 }
 
+
 const getOrder = async(req, res) => {
     const orderId = req.params.id;
     console.log(orderId);
@@ -22,8 +23,21 @@ const getOrder = async(req, res) => {
     // res.status(200).json({msg: "GetOrder api working"});
 }
 
+const getUserOrders = async(req, res) => {
+    const user_id = req.params;
+    console.log(user_id);
+    if(!mongoose.Types.ObjectId.isValid(user_id)) {
+        return res.status(404).json({error: 'Invalid User'})
+    }
+
+    const dbResponse = await Orders.find({customer_id: user_id.id});
+    res.status(200).json(dbResponse);
+
+    // res.status(200).json({msg: "GetOrder api working"});
+}
+
 const createOrder = async(req, res) => {
-    const { customer_name, customer_phone, burger_quantity, burger_price, burger_name, addons } = req.body;
+    const { customer_id, customer_name, customer_phone, customer_email, burger_quantity, burger_price, burger_name, addons } = req.body;
     const numberOfPendingOrders = await Orders.find({});
     const order_id = numberOfPendingOrders.length + 1;
     const addons_amount = addons.reduce((sum, addon) => sum + addon.totalAmount, 0);
@@ -34,6 +48,8 @@ const createOrder = async(req, res) => {
         order_id,
         order_name: burger_name,
         order_quantity: burger_quantity,
+        customer_email,
+        customer_id,
         order_price: parseInt(burger_price),
         customer_name,
         customer_phone,
@@ -45,7 +61,7 @@ const createOrder = async(req, res) => {
     
     try {
         const order = await Orders.create(orderData);
-        res.status(200).json({msg: "Order Placed"});
+        res.status(200).json(order);
     } catch(error) {
         console.log(error)
     }
@@ -73,5 +89,6 @@ module.exports = {
     getOrders,
     getOrder,
     createOrder,
-    deleteOrder
+    deleteOrder,
+    getUserOrders
 }

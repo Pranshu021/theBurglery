@@ -20,6 +20,7 @@ const createUser = async(req, res) => {
             username,
             email,
             password: encryptedPassword,
+            phone
         })
 
         const token = jwt.sign({user_id: newUser._id, email}, process.env.TOKEN_KEY, {expiresIn: "2h"});
@@ -67,7 +68,26 @@ const login = async(req, res) => {
 }
 
 const getUser = async(req, res) => {
-    res.status(200).json({msg: "Get User API working"});
+    const userId = req.params.id;
+    if(!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(404).json({error: 'Something Went wrong'});
+    }
+
+    const user = await Users.findById(userId);
+    if(!user) {
+        return res.status(404).json({error: 'Unauthorized Access'});
+    } else {
+        const userData = Object.assign({}, user, {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            phone: user.phone,
+            orders: user.orders,
+        })
+        res.status(200).json(userData);
+    }
+
+    // res.status(200).json({msg: "Get User API working"});
 }
 
 const deleteUser = async(req, res) => {
@@ -75,7 +95,26 @@ const deleteUser = async(req, res) => {
 }
 
 const updateUser = async(req, res) => {
-    res.status(200).json({msg: "Update user api working"});
+    const userId = req.params;
+    if(!mongoose.Types.ObjectId.isValid(userId.id)) {
+        console.log(userId.id)
+        return res.status(404).json({error: 'Sorry! Workout doesn\'t exist'});
+    }
+
+    console.log(req.body);
+    console.log(req.body.orders);
+
+    const updateUser = await Users.findOneAndUpdate({_id: userId.id}, {
+        ...req.body
+    }, {new: true})
+
+
+    if(!updateUser) {
+        return res.status(404).json({error: 'Sorry User doesn\'t exist'});
+    } else {
+        res.status(200).json({msg: "Updated"});
+    }
+    // res.status(200).json({msg: "Update user api working"});
 }
 
 module.exports = {

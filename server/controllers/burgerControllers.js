@@ -4,7 +4,7 @@ const Burger = require('../models/burgerModel');
 const Addons = require('../models/addonsModel');
 
 const getBurgers = async(req, res) => {
-    const burgersData = await Burger.find({});
+    const burgersData = await Burger.find({}).sort({burger_price: 1});
     res.status(200).json(burgersData);
 }
 
